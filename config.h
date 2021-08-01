@@ -2,20 +2,22 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int gappx     = 10;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const int user_bh            = 10;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static char *fonts[]          = { "monospace:size=12", "JoyPixels:pixelsize=12:antialias=true:autohint=true"  };
-static const char dmenufont[]       = "monospace:size=12";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
+static char *fonts[]          = { "Calibri:pixelsize=20:antialias=true:autohint=true" , "JoyPixels:pixelsize=16:antialias=true:autohint=true", "Noto Sans Arabic UI:pixelsize=20:antialias=true:autohint=true"  };
+// static char *fonts[]          		= { "Calibri:pixelsize=20:antialias=true:autohint=true"    };
+// static char *fonts[]          		= {"Noto Color Emoji:pixelsize=18:antialias=true:autohint=true", "Noto Sans Display:pixelsize=18:antialias=true:autohint=true"    };
+static const char dmenufont[]       = "JetBrains Mono:pixelsize=16:antialias=true:autohint=true";
+static const char colprimary[]       = "#1abc9c";
+static const char colsecondary[]       = "#2c3e50";
+static const char colborders[]       = "#8db5cf";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeNorm] = { colprimary, colsecondary, colborders },
+	[SchemeSel]  = { colsecondary, colprimary, colborders },
 };
 
 /* tagging */
@@ -27,8 +29,9 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Gimp",     					NULL,       NULL,       0,            1,           -1 },
+	{ "Microsoft Teams - Preview",  NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Slack",  					NULL,       NULL,       1 << 3,       0,           -1 },
 };
 
 /* layout(s) */
@@ -57,48 +60,52 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *dmenucmd[] =			{ "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", colsecondary, "-nf", colprimary, "-sb", colprimary, "-sf", colsecondary, NULL };
+static const char *termcmd[]  = 		{ "st", NULL };
+static const char *cmdprintscreen[]  = 	{ "scrot", "-sf", "/home/saedx1/screenshots/%Y-%m-%d-%s_$wx$h.png", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_t, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,						XK_Right,  focusstack,     {.i = +1 } },
-	{ MODKEY,						XK_Left,   focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,             			XK_n, spawn,         SHCMD("google-chrome-stable") },
-	{ ALTMASK,             			XK_Shift_L, spawn,         SHCMD("/home/saedx1/devel/scripts/language-change.sh") },
-	{ ShiftMask,             		XK_Alt_L, spawn,         SHCMD("/home/saedx1/devel/scripts/language-change.sh") },
-	// (setxkbmap -query | grep -q \"layout:\s\+us\") && setxkbmap ar || setxkbmap us
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} }
+	{ MODKEY,						XK_p,		spawn,          	{.v = dmenucmd } },
+	{ MODKEY,						XK_space, 	spawn,          	{.v = termcmd } },
+	{ MODKEY,                       XK_b,      	togglebar,      	{0} },
+	{ MODKEY,						XK_Up,		spawn,     			SHCMD("pulseaudio-ctl up") },
+	{ MODKEY,						XK_Down,  	spawn,     			SHCMD("pulseaudio-ctl down") },
+	{ 0,							XK_Print,  	spawn,				{.v = cmdprintscreen } },
+	{ MODKEY,						XK_Right,  	focusstack,     	{.i = +1 } },
+	{ MODKEY,						XK_Left,   	focusstack,     	{.i = -1 } },
+	{ MODKEY,                       XK_i,      	incnmaster,     	{.i = +1 } },
+	{ MODKEY,                       XK_d,      	incnmaster,     	{.i = -1 } },
+	{ MODKEY,                       XK_h,      	setmfact,       	{.f = -0.05} },
+	{ MODKEY,                       XK_l,      	setmfact,       	{.f = +0.05} },
+	{ MODKEY,                       XK_Return, 	zoom,           	{0} },
+	{ MODKEY,                       XK_Tab,    	view,           	{0} },
+	{ MODKEY|ShiftMask,             XK_c,      	killclient,     	{0} },
+	{ MODKEY,                       XK_t,   	setlayout,      	{.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,      	setlayout,      	{.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,      	setlayout,      	{.v = &layouts[2]} },
+	{ 0, 							0,  		setlayout,      	{0} },
+	{ MODKEY|ShiftMask,             XK_space,  	togglefloating, 	{0} },
+	{ MODKEY,                       XK_0,      	view,           	{.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,      	tag,            	{.ui = ~0 } },
+	{ MODKEY,                       XK_comma,  	focusmon,       	{.i = -1 } },
+	{ MODKEY,                       XK_period, 	focusmon,       	{.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,  	tagmon,         	{.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period, 	tagmon,         	{.i = +1 } },
+	{ MODKEY,             			XK_n,		spawn,				SHCMD("$BROWSER") },
+	{ ALTMASK,             			XK_Shift_L,	spawn,				SHCMD("language_switch") },
+	{ ShiftMask,             		XK_Alt_L,	spawn,				SHCMD("language_switch") },
+	{ MODKEY, 						XK_s,		spawn,				SHCMD("sleep_pc") },
+	TAGKEYS(                        XK_1,                      		0)
+	TAGKEYS(                        XK_2,                      		1)
+	TAGKEYS(                        XK_3,                      		2)
+	TAGKEYS(                        XK_4,                      		3)
+	TAGKEYS(                        XK_5,                      		4)
+	TAGKEYS(                        XK_6,                      		5)
+	TAGKEYS(                        XK_7,                      		6)
+	TAGKEYS(                        XK_8,                      		7)
+	TAGKEYS(                        XK_9,                      		8)
+	{ MODKEY|ShiftMask,             XK_q,     	 quit,           	{0} }
 
 };
 
@@ -109,7 +116,9 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
+	{ ClkStatusText,        0,              Button1,        spawn,          SHCMD("st -e htop")},
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button3,        spawn,			SHCMD("killall activate_status_bar && activate_status_bar &") },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
