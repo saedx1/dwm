@@ -114,6 +114,9 @@ static Key keys[] = {
 	{ALTMASK, XK_Shift_L, spawn, SHCMD("language_switch")},
 	{ShiftMask, XK_Alt_L, spawn, SHCMD("language_switch")},
 	{MODKEY, XK_s, spawn, SHCMD("sleep_pc")},
+	{MODKEY, XK_minus, setgaps, {.i = -1}},
+	{MODKEY, XK_equal, setgaps, {.i = +1}},
+	{MODKEY | ShiftMask, XK_equal, setgaps, {.i = 0}},
 	TAGKEYS(XK_1, 0)
 		TAGKEYS(XK_2, 1)
 			TAGKEYS(XK_3, 2)
