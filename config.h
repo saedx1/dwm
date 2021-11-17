@@ -2,23 +2,24 @@
 #include "layouts.c"
 
 /* appearance */
-static const unsigned int borderpx = 1; /* border pixel of windows */
-static const unsigned int gappx = 10;	/* gap pixel between windows */
+static const unsigned int borderpx = 0; /* border pixel of windows */
+static const unsigned int gappx = 8;	/* gap pixel between windows */
 static const unsigned int snap = 32;	/* snap pixel */
 static const int user_bh = 10;			/* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const int showbar = 1;			/* 0 means no bar */
 static const int topbar = 1;			/* 0 means bottom bar */
-static char *fonts[] = {"Calibri:pixelsize=18:antialias=true:autohint=true", "JoyPixels:pixelsize=16:antialias=true:autohint=true", "Noto Sans Arabic UI:pixelsize=20:antialias=true:autohint=true"};
-// static char *fonts[]          		= { "Calibri:pixelsize=20:antialias=true:autohint=true"    };
-// static char *fonts[]          		= {"Noto Color Emoji:pixelsize=18:antialias=true:autohint=true", "Noto Sans Display:pixelsize=18:antialias=true:autohint=true"    };
+static const int vertpad = 10;			/* vertical padding of bar */
+static const int sidepad = 8;			/* horizontal padding of bar */
+
+static char *fonts[] = {"Roboto:pixelsize=14:antialias=true:autohint=true", "JoyPixels:pixelsize=16:antialias=true:autohint=true", "Noto Sans Arabic UI:pixelsize=20:antialias=true:autohint=true"};
 static const char dmenufont[] = "JetBrains Mono:pixelsize=16:antialias=true:autohint=true";
-static const char colprimary[] = "#1abc9c";
-static const char colsecondary[] = "#2c3e50";
+static const char colprimary[] = "#FFFFFF";
+static const char colsecondary[] = "#282A36";
 static const char colborders[] = "#8db5cf";
 static const char *colors[][3] = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = {colprimary, colsecondary, colborders},
-	[SchemeSel] = {colsecondary, colprimary, colborders},
+	[SchemeSel] = {colprimary, colsecondary, colborders},
 };
 
 /* tagging */
@@ -37,14 +38,12 @@ static const char *tagsel[][2] = {
 };
 
 static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{"Gimp", NULL, NULL, 0, 1, -1},
 	{"Microsoft Teams - Preview", NULL, NULL, 1 << 3, 0, -1},
 	{"Slack", NULL, NULL, 1 << 3, 0, -1},
+	{"Code", NULL, NULL, 1 << 1, 0, -1},
+	{"zoom", NULL, NULL, 1 << 5, 0, -1},
 };
 
 /* layout(s) */
@@ -57,7 +56,7 @@ static const Layout layouts[] = {
 	{"[T]", tile}, /* first entry is default */
 	{"[F]", NULL}, /* no layout function means floating behavior */
 	{"[M]", monocle},
-	{"HHH", grid},
+	{"[G]", grid},
 };
 
 /* key definitions */
