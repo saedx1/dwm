@@ -42,7 +42,7 @@ static const Rule rules[] = {
 	{"Gimp", NULL, NULL, 0, 1, -1},
 	{"Microsoft Teams - Preview", NULL, NULL, 1 << 3, 0, -1},
 	{"Slack", NULL, NULL, 1 << 3, 0, -1},
-	{"Code", NULL, NULL, 1 << 1, 0, -1},
+	// {"Code", NULL, NULL, 1 << 1, 0, -1},
 	{"zoom", NULL, NULL, 1 << 5, 0, -1},
 };
 
@@ -78,7 +78,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", colsecondary, "-nf", colprimary, "-sb", colprimary, "-sf", colsecondary, NULL};
 static const char *termcmd[] = {"st", NULL};
-static const char *cmdprintscreen[] = {"scrot", "-sf", "/home/saedx1/screenshots/%Y-%m-%d-%s_$wx$h.png", NULL};
+static const char *cmdprintscreen[] = {"scrot", "-s", "-f", "/home/saedx1/screenshots/%Y-%m-%d-%s_$wx$h.png", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
