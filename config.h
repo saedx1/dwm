@@ -11,8 +11,8 @@ static const int topbar = 1;			/* 0 means bottom bar */
 static const int vertpad = 10;			/* vertical padding of bar */
 static const int sidepad = 8;			/* horizontal padding of bar */
 
-static char *fonts[] = {"Roboto:pixelsize=14:antialias=true:autohint=true", "JoyPixels:pixelsize=16:antialias=true:autohint=true", "Noto Sans Arabic UI:pixelsize=20:antialias=true:autohint=true"};
-static const char dmenufont[] = "JetBrains Mono:pixelsize=16:antialias=true:autohint=true";
+static char *fonts[] = {"Roboto:pixelsize=13:antialias=true:autohint=true", "JoyPixels:pixelsize=13:antialias=true:autohint=true", "Noto Sans Arabic UI:pixelsize=20:antialias=true:autohint=true"};
+static const char dmenufont[] = "Roboto Mono:pixelsize=13:antialias=true:autohint=true";
 static const char colprimary[] = "#FFFFFF";
 static const char colsecondary[] = "#282A36";
 static const char colborders[] = "#8db5cf";
