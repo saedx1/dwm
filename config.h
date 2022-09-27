@@ -3,7 +3,7 @@
 
 /* appearance */
 static const unsigned int borderpx = 0; /* border pixel of windows */
-static const unsigned int gappx = 8;	/* gap pixel between windows */
+static const unsigned int gappx = 16;	/* gap pixel between windows */
 static const unsigned int snap = 32;	/* snap pixel */
 static const int user_bh = 10;			/* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const int showbar = 1;			/* 0 means no bar */
@@ -42,7 +42,7 @@ static const Rule rules[] = {
 	{"Gimp", NULL, NULL, 0, 1, -1},
 	{"Microsoft Teams - Preview", NULL, NULL, 1 << 3, 0, -1},
 	{"Slack", NULL, NULL, 1 << 3, 0, -1},
-	// {"Code", NULL, NULL, 1 << 1, 0, -1},
+	{"Code", NULL, NULL, 1 << 1, 0, -1},
 	{"zoom", NULL, NULL, 1 << 5, 0, -1},
 };
 
@@ -53,9 +53,9 @@ static const int resizehints = 1; /* 1 means respect size hints in tiled resizal
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
+	{"[M]", monocle},
 	{"[T]", tile}, /* first entry is default */
 	{"[F]", NULL}, /* no layout function means floating behavior */
-	{"[M]", monocle},
 	{"[G]", grid},
 };
 
@@ -78,18 +78,13 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", colsecondary, "-nf", colprimary, "-sb", colprimary, "-sf", colsecondary, NULL};
 static const char *termcmd[] = {"st", NULL};
-static const char *cmdprintscreen[] = {"scrot", "-s", "-f", "/home/saedx1/screenshots/%Y-%m-%d-%s_$wx$h.png", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{MODKEY, XK_p, spawn, {.v = dmenucmd}},
-	{MODKEY, XK_space, spawn, {.v = termcmd}},
 	{MODKEY, XK_b, togglebar, {0}},
-	{MODKEY, XK_Up, spawn, SHCMD("pulseaudio-ctl up")},
-	{MODKEY, XK_Down, spawn, SHCMD("pulseaudio-ctl down")},
-	{0, XK_Print, spawn, {.v = cmdprintscreen}},
-	{MODKEY, XK_Right, focusstack, {.i = +1}},
-	{MODKEY, XK_Left, focusstack, {.i = -1}},
+	{ALTMASK | ShiftMask, XK_Tab, focusstack, {.i = -1}},
+	{ALTMASK, XK_Tab, focusstack, {.i = 1}},
 	{MODKEY, XK_i, incnmaster, {.i = +1}},
 	{MODKEY, XK_d, incnmaster, {.i = -1}},
 	{MODKEY, XK_h, setmfact, {.f = -0.05}},
@@ -97,9 +92,9 @@ static Key keys[] = {
 	{MODKEY, XK_Return, zoom, {0}},
 	{MODKEY, XK_Tab, view, {0}},
 	{MODKEY | ShiftMask, XK_c, killclient, {0}},
-	{MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
-	{MODKEY, XK_f, setlayout, {.v = &layouts[1]}},
-	{MODKEY, XK_m, setlayout, {.v = &layouts[2]}},
+	{MODKEY, XK_m, setlayout, {.v = &layouts[0]}},
+	{MODKEY, XK_t, setlayout, {.v = &layouts[1]}},
+	{MODKEY, XK_f, setlayout, {.v = &layouts[2]}},
 	{MODKEY, XK_g, setlayout, {.v = &layouts[3]}},
 	{0, 0, setlayout, {0}},
 	{MODKEY | ShiftMask, XK_space, togglefloating, {0}},
@@ -109,10 +104,6 @@ static Key keys[] = {
 	{MODKEY, XK_period, focusmon, {.i = +1}},
 	{MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
 	{MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
-	{MODKEY, XK_n, spawn, SHCMD("$BROWSER")},
-	{ALTMASK, XK_Shift_L, spawn, SHCMD("language_switch")},
-	{ShiftMask, XK_Alt_L, spawn, SHCMD("language_switch")},
-	{MODKEY, XK_s, spawn, SHCMD("sleep_pc")},
 	{MODKEY, XK_minus, setgaps, {.i = -1}},
 	{MODKEY, XK_equal, setgaps, {.i = +1}},
 	{MODKEY | ShiftMask, XK_equal, setgaps, {.i = 0}},
@@ -124,9 +115,7 @@ static Key keys[] = {
 						TAGKEYS(XK_6, 5)
 							TAGKEYS(XK_7, 6)
 								TAGKEYS(XK_8, 7)
-									TAGKEYS(XK_9, 8){MODKEY | ShiftMask, XK_q, quit, {0}}
-
-};
+									TAGKEYS(XK_9, 8){MODKEY | ShiftMask, XK_q, quit, {0}}};
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
@@ -137,7 +126,6 @@ static Button buttons[] = {
 	{ClkWinTitle, 0, Button2, zoom, {0}},
 	{ClkStatusText, 0, Button1, spawn, SHCMD("st -e htop")},
 	{ClkStatusText, 0, Button2, spawn, {.v = termcmd}},
-	{ClkStatusText, 0, Button3, spawn, SHCMD("killall activate_status_bar && activate_status_bar &")},
 	{ClkClientWin, MODKEY, Button1, movemouse, {0}},
 	{ClkClientWin, MODKEY, Button2, togglefloating, {0}},
 	{ClkClientWin, MODKEY, Button3, resizemouse, {0}},
