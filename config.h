@@ -2,16 +2,20 @@
 #include "layouts.c"
 
 /* appearance */
-static const unsigned int borderpx = 0; /* border pixel of windows */
+static const unsigned int borderpx = 2; /* border pixel of windows */
 static const unsigned int gappx = 16;	/* gap pixel between windows */
-static const unsigned int snap = 32;	/* snap pixel */
-static const int user_bh = 10;			/* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const unsigned int snap = 1;	/* snap pixel */
+static const int user_bh = 40;			/* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const int showbar = 1;			/* 0 means no bar */
 static const int topbar = 1;			/* 0 means bottom bar */
-static const int vertpad = 10;			/* vertical padding of bar */
-static const int sidepad = 8;			/* horizontal padding of bar */
+static const int vertpad = 5;			/* vertical padding of bar */
+static const int sidepad = 500;			/* horizontal padding of bar */
 
-static const char *fonts[] = {"Roboto:pixelsize=13:antialias=true:autohint=true", "JoyPixels:pixelsize=13:antialias=true:autohint=true", "Traditional Arabic:pixelsize=20:antialias=true:autohint=true"};
+static const char *fonts[] = {
+	"JetBrains Mono:pixelsize=13:antialias=true:autohint=true",
+	"JoyPixels:pixelsize=13:antialias=true:autohint=true",
+	"Traditional Arabic:pixelsize=20:antialias=true:autohint=true"
+};
 static const char dmenufont[] = "Roboto Mono:pixelsize=13:antialias=true:autohint=true";
 static const char colprimary[] = "#FFFFFF";
 static const char colsecondary[] = "#282A36";
@@ -23,7 +27,7 @@ static const char *colors[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+static const char *tags[] = {"🌐", "📝", "🧨", "4", "5", "6", "7", "8", "9"};
 
 static const char *tagsel[][2] = {
 	{"#ffffff", "#ff0000"},
@@ -40,10 +44,10 @@ static const char *tagsel[][2] = {
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{"Gimp", NULL, NULL, 0, 1, -1},
-	{"Microsoft Teams - Preview", NULL, NULL, 1 << 3, 0, -1},
-	{"Slack", NULL, NULL, 1 << 3, 0, -1},
-	{"Code", NULL, NULL, 1 << 1, 0, -1},
-	{"zoom", NULL, NULL, 1 << 5, 0, -1},
+	// {"Microsoft Teams - Preview", NULL, NULL, 1 << 3, 0, -1},
+	// {"Slack", NULL, NULL, 1 << 3, 0, -1},
+	// {"Code", NULL, NULL, 1 << 1, 0, -1},
+	// {"zoom", NULL, NULL, 1 << 5, 0, -1},
 };
 
 /* layout(s) */
