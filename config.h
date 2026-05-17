@@ -4,41 +4,39 @@
 /* appearance */
 static const unsigned int borderpx = 2; /* border pixel of windows */
 static const unsigned int gappx = 16;	/* gap pixel between windows */
-static const unsigned int snap = 1;	/* snap pixel */
+static const unsigned int snap = 32;	/* snap pixel */
 static const int user_bh = 0;			/* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const int showbar = 1;			/* 0 means no bar */
 static const int topbar = 1;			/* 0 means bottom bar */
 static const int vertpad = 10;			/* vertical padding of bar */
 static const int sidepad = 20;			/* horizontal padding of bar */
 
-static const char *fonts[] = {
-	"JetBrains Mono:pixelsize=13:antialias=true:autohint=true",
-	"JoyPixels:pixelsize=13:antialias=true:autohint=true",
-	"Traditional Arabic:pixelsize=20:antialias=true:autohint=true"
-};
-static const char dmenufont[] = "Roboto Mono:pixelsize=13:antialias=true:autohint=true";
+static const char *fonts[] = {"JetBrains Mono:bold:pixelsize=14:antialias=true:autohint=true", "JoyPixels:pixelsize=14:antialias=true:autohint=true", "Traditional Arabic:bold:pixelsize=22:antialias=true:autohint=true"};
+static const char dmenufont[] = "JetBrains Mono:pixelsize=14:antialias=true:autohint=true";
 static const char colprimary[] = "#FFFFFF";
 static const char colsecondary[] = "#282A36";
-static const char colborders[] = "#8db5cf";
+static const char colaccent[] = "#bd93f9"; /* focused window border   */
+static const char coldim[] = "#44475a";	   /* unfocused window border */
 static const char *colors[][3] = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = {colprimary, colsecondary, colborders},
-	[SchemeSel] = {colprimary, colsecondary, colborders},
+	/*               fg         bg            border   */
+	[SchemeNorm] = {colprimary, colsecondary, coldim},
+	[SchemeSel] = {colprimary, colsecondary, colaccent},
 };
 
 /* tagging */
 static const char *tags[] = {"🌐", "📝", "🧨", "4", "5", "6", "7", "8", "9"};
 
 static const char *tagsel[][2] = {
-	{"#ffffff", "#ff0000"},
-	{"#ffffff", "#ff7f00"},
-	{"#000000", "#ffff00"},
-	{"#000000", "#00ff00"},
-	{"#ffffff", "#0000ff"},
-	{"#ffffff", "#4b0082"},
-	{"#ffffff", "#9400d3"},
-	{"#000000", "#ffffff"},
-	{"#ffffff", "#000000"},
+	/*    fg         bg          Dracula palette - cohesive but per-tag */
+	{"#282A36", "#8be9fd"}, /* 1  cyan   */
+	{"#282A36", "#50fa7b"}, /* 2  green  */
+	{"#282A36", "#f1fa8c"}, /* 3  yellow */
+	{"#282A36", "#ffb86c"}, /* 4  orange */
+	{"#282A36", "#ff5555"}, /* 5  red    */
+	{"#282A36", "#ff79c6"}, /* 6  pink   */
+	{"#282A36", "#bd93f9"}, /* 7  purple */
+	{"#f8f8f2", "#6272a4"}, /* 8  slate  */
+	{"#282A36", "#f8f8f2"}, /* 9  white  */
 };
 
 static const Rule rules[] = {
@@ -87,6 +85,7 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{MODKEY, XK_p, spawn, {.v = dmenucmd}},
 	{MODKEY, XK_b, togglebar, {0}},
+	{MODKEY | ShiftMask, XK_x, spawn, SHCMD("slock")},
 	{ALTMASK | ShiftMask, XK_Tab, focusstack, {.i = -1}},
 	{ALTMASK, XK_Tab, focusstack, {.i = 1}},
 	{MODKEY, XK_i, incnmaster, {.i = +1}},
